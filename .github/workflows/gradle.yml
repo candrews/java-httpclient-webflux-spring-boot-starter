@@ -46,7 +46,7 @@ jobs:
     - name: Build
       run: ./gradlew build
     - name: Publish
-      if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/master' && github.event_name != 'workflow_dispatch'
       run: |
         ./gradlew publish
       env:
