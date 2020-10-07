@@ -178,11 +178,11 @@ task publishToGitHubAndOSSRH {
         it.repository == publishing.repositories.GitHubPackages
     }
     dependsOn publishToSonatype
+	dependsOn closeAndReleaseRepository
 }
 
 closeAndReleaseRepository {
 	onlyIf { !project.version.toString().endsWith("-SNAPSHOT") }
-	mustRunAfter publishToSonatype
 }
 
 afterReleaseBuild {
