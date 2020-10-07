@@ -171,23 +171,14 @@ nexusStaging {
 	password = System.getenv("OSSRH_PASSWORD")
 }
 
-task publishToGitHubAndOSSRH {
-    group = 'publishing'
-    description = 'Publishes to GitHub Packages and OSSRH.'
-    dependsOn tasks.withType(PublishToMavenRepository).matching {
-        it.repository == publishing.repositories.GitHubPackages
-    }
-    dependsOn publishToSonatype
-	dependsOn closeAndReleaseRepository
-}
-
 closeAndReleaseRepository {
 	onlyIf { !project.version.toString().endsWith("-SNAPSHOT") }
 }
 
+publish.finalizedBy closeAndReleaseRepository
+
 afterReleaseBuild {
 	dependsOn publish
-	dependsOn closeAndReleaseRepository
 }
 
 pmd {
