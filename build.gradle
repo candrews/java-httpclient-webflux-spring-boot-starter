@@ -186,7 +186,8 @@ closeAndReleaseRepository {
 }
 
 afterReleaseBuild {
-	dependsOn publishToGitHubAndOSSRH
+	dependsOn publish
+	dependsOn closeAndReleaseRepository
 }
 
 pmd {

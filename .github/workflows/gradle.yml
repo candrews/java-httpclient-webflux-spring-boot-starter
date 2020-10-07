@@ -17,12 +17,14 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Cache Gradle packages
+    - name: Cache Gradle wrapper and packages
       uses: actions/cache@v2
-      with:
-        path: ~/.gradle/caches
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-        restore-keys: ${{ runner.os }}-gradle
+      path: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+      restore-keys: |
+        ${{ runner.os }}-gradle-
     - name: Set Up Signing
       if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/master'
       run: |
@@ -44,7 +46,7 @@ jobs:
     - name: Publish
       if: github.ref == 'refs/heads/master'
       run: |
-        ./gradlew publishToGitHubAndOSSRH
+        ./gradlew publish
       env:
         GITHUB_ACTOR: ${{ github.actor }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
