@@ -172,7 +172,7 @@ nexusStaging {
 }
 
 closeAndReleaseRepository {
-	onlyIf { !project.version.toString().endsWith("-SNAPSHOT") }
+	onlyIf { nexusPublishing.useStaging.get() }
 }
 
 publish.finalizedBy closeAndReleaseRepository
